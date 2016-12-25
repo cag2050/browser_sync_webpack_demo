@@ -39,8 +39,8 @@ var config = {
                 loader: ExtractTextPlugin.extract("style", "css")
             },
             {
-                test: /.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css', 'sass')
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('style', 'css-loader!sass-loader')
             },
             {test: /\.(png|jpg)$/, loader: 'url'},
             {
