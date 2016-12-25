@@ -5,10 +5,12 @@ var fs = require("fs"),
     path = require("path");
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var CopyPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
 
 // 获得文件夹下的js文件
 var getJsFiles = function () {
-    var jsPath = path.resolve("src/js");
+    var jsPath = path.resolve("src/js-css");
     var dirs = fs.readdirSync(jsPath);
     var matchs = [],
         files = {},
@@ -17,7 +19,7 @@ var getJsFiles = function () {
         matchs = item.match(/(.+)\.js$/);
         var _path = '';
         if (matchs) {
-            _path = path.resolve("src/js", item);
+            _path = path.resolve("src/js-css", item);
             files[matchs[1]] = _path;
             all.push(_path);
         }
@@ -27,8 +29,29 @@ var getJsFiles = function () {
 var config = {
     entry: getJsFiles(),
     output: {
-        path: path.join(__dirname, "build/js"), //文件输出目录
+        path: path.join(__dirname, "build/js-css"), //文件输出目录
         filename: "[name].js"
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style", "css")
+            },
+            {
+                test: /.scss$/,
+                loader: ExtractTextPlugin.extract('style', 'css', 'sass')
+            },
+            {test: /\.(png|jpg)$/, loader: 'url'},
+            {
+                test: /\.js$/,
+                exclude: "/node_modules/",
+                loader: 'babel',
+                query: {
+                    presets: ['es2015']
+                }
+            }
+        ]
     },
     plugins: [
         // 配置browser-sync
@@ -49,12 +72,14 @@ var config = {
             {
                 from: __dirname + '/src/html',
                 to: __dirname + '/build/html'
-            },
-            {
-                from: __dirname + '/src/css',
-                to: __dirname + '/build/css'
             }
-        ])
+        ]),
+        new UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new ExtractTextPlugin("[name].css")
     ]
 };
 
