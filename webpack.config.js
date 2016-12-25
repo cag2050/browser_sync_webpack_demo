@@ -40,7 +40,7 @@ var config = {
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css-loader!sass-loader')
+                loader: ExtractTextPlugin.extract('style', 'css!sass')
             },
             {test: /\.(png|jpg)$/, loader: 'url'},
             {
