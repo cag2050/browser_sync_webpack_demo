@@ -72,6 +72,10 @@ var config = {
             {
                 from: __dirname + '/src/html',
                 to: __dirname + '/build/html'
+            },
+            {
+                from: __dirname + '/src/assets',
+                to: __dirname + '/build/assets'
             }
         ]),
         new UglifyJsPlugin({
