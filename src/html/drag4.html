@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style type="text/css">
+        #div1, #div2, #div3, #div4, #div5 {
+            float: left;
+            width: 198px;
+            height: 66px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+    <script type="text/javascript">
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("Text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("Text");
+            document.getElementById('parent').insertBefore(document.getElementById(data), ev.target);
+        }
+    </script>
+</head>
+<body>
+拖动（drag）A矩形到B矩形上面，drop 后,A矩形会在B矩形的前面。
+<div id="parent">
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">
+        1
+        <!--<img src="../assets/eg_dragdrop_w3school.gif" draggable="true" ondragstart="drag(event)" id="drag1"/>-->
+    </div>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">2</div>
+    <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">3</div>
+    <div id="div4" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">4</div>
+    <div id="div5" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">5</div>
+</div>
+</body>
+</html>
