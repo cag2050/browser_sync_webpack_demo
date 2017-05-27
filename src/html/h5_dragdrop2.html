@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>h5拖放：在 h5_dragdrop.html 基础上增加: 1.</title>
+    <style type="text/css">
+        .child {
+            float: left;
+            width: 198px;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+    <script type="text/javascript">
+        var srcDiv = null,
+            startClientX = 0,
+            endClientX = 0,
+            startClientY = 0,
+            endClientY = 0;
+        function dragover(ev) {
+            ev.preventDefault();
+        }
+
+        function dragstart(ev, divDom) {
+            startClientX = ev.clientX;
+            startClientY = ev.clientY;
+            srcDiv = divDom;
+            ev.dataTransfer.setData("Text", ev.target.id);
+        }
+
+        function drop(ev, divDom) {
+            ev.preventDefault();
+            endClientX = ev.clientX;
+            endClientY = ev.clientY;
+            if (srcDiv != divDom) {
+                srcDiv.style.display = 'none'
+                var data = ev.dataTransfer.getData("Text");
+                // 鼠标向右或向下
+                if (endClientX - startClientX > 0 || endClientY - startClientY > 0) {
+                    console.log('鼠标向右或向下')
+                    console.log('ev.target.nextElementSibling =')
+                    console.log(ev.target.nextElementSibling)
+                    console.log('data =')
+                    console.log(data)
+                    console.log('document.getElementById(data) =')
+                    console.log(document.getElementById(data))
+                    document.getElementById('parent').insertBefore(document.getElementById(data), ev.target.nextElementSibling);
+                }
+                // 鼠标向左或向上
+                if (endClientX - startClientX < 0 || endClientY - startClientY < 0) {
+                    console.log('鼠标向左或向上')
+                    console.log('ev.target =')
+                    console.log(ev.target)
+                    document.getElementById('parent').insertBefore(document.getElementById(data), ev.target);
+                }
+                document.getElementById(data).style.display = 'block';
+                startClientX = 0;
+                endClientX = 0;
+                startClientY = 0;
+                endClientY = 0;
+            }
+        }
+    </script>
+</head>
+<body>
+拖动（drag）矩形A到矩形B上面，drop 后，矩形A的位置消失，其他元素流动，最后矩形A占据矩形B的位置。
+<div id="parent">
+    <div id="div1" class="child" ondrop="drop(event,this)" ondragover="dragover(event)" draggable="true"
+         ondragstart="dragstart(event,this)">1
+        <img draggable="false" src="../assets/scene1.jpg" width="100%" height="80%">
+    </div>
+    <div id="div2" class="child" ondrop="drop(event,this)" ondragover="dragover(event)" draggable="true"
+         ondragstart="dragstart(event,this)">2
+    </div>
+    <div id="div3" class="child" ondrop="drop(event,this)" ondragover="dragover(event)" draggable="true"
+         ondragstart="dragstart(event,this)">3
+    </div>
+    <div id="div4" class="child" ondrop="drop(event,this)" ondragover="dragover(event)" draggable="true"
+         ondragstart="dragstart(event,this)">4
+    </div>
+    <div id="div5" class="child" ondrop="drop(event,this)" ondragover="dragover(event)" draggable="true"
+         ondragstart="dragstart(event,this)">5
+    </div>
+</div>
+</body>
+</html>
