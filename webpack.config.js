@@ -36,20 +36,17 @@ var config = {
         loaders: [
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract("style", "css")
+                loader: ExtractTextPlugin.extract({fallback: "style-loader", use: "css-loader"})
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css!sass')
+                loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader!sass-loader'})
             },
-            {
-                test: /\.(png|jpg)$/,
-                loader: 'url'
-            },
+            {test: /\.(png|jpg)$/, loader: 'url-loader'},
             {
                 test: /\.js$/,
                 exclude: "/node_modules/",
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
                     presets: ['es2015']
                 }
@@ -66,7 +63,7 @@ var config = {
                 baseDir: './build'
             }
         }),
-        // 复制src/index.html,src/html和src/assets文件夹下的文件到build
+        // 复制src/index.html,src/html和src/css文件夹下的文件到build
         new CopyPlugin([
             {
                 from: __dirname + '/src/index.html',
