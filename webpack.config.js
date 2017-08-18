@@ -42,7 +42,10 @@ var config = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract('style', 'css!sass')
             },
-            {test: /\.(png|jpg)$/, loader: 'url'},
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url'
+            },
             {
                 test: /\.js$/,
                 exclude: "/node_modules/",
@@ -63,7 +66,7 @@ var config = {
                 baseDir: './build'
             }
         }),
-        // 复制src/index.html,src/html和src/css文件夹下的文件到build
+        // 复制src/index.html,src/html和src/assets文件夹下的文件到build
         new CopyPlugin([
             {
                 from: __dirname + '/src/index.html',
