@@ -24,6 +24,7 @@ var getJsFiles = function () {
             all.push(_path);
         }
     });
+    console.log(files)
     return files;
 };
 var config = {
@@ -42,7 +43,10 @@ var config = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader!sass-loader'})
             },
-            {test: /\.(png|jpg)$/, loader: 'url-loader'},
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader'
+            },
             {
                 test: /\.js$/,
                 exclude: "/node_modules/",
